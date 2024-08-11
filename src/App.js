@@ -1,4 +1,34 @@
+import { useState } from "react";
+
 function App() {
+  const [user, setUser] = useState("");
+  const [email, setEmail] = useState("");
+  const [interests, setInterests] = useState({
+    technology: false,
+    art: false,
+    science: false,
+  });
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleCheckboxChange = (event) => {
+    setInterests({
+      ...interests,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setSubmitted(true);
+    setEmail("");
+    setUser("");
+    setInterests({
+      technology: false,
+      art: false,
+      science: false,
+    })
+  };
+
   return (
     <main>
       <h1>Hi, I'm (your name)</h1>
@@ -18,6 +48,54 @@ function App() {
         <a href="https://github.com">GitHub</a>
         <a href="https://linkedin.com">LinkedIn</a>
       </div>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Name</label>
+        <input
+          id="username"
+          placeholder="Name"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+        />
+
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <label htmlFor="technology">Technology</label>
+        <input
+          id="tech"
+          type="checkbox"
+          name="technology"
+          checked={interests.technology}
+          onChange={handleCheckboxChange}
+        />
+
+        <label htmlFor="art">Art</label>
+        <input
+          id="art"
+          type="checkbox"
+          name="art"
+          checked={interests.art}
+          onChange={handleCheckboxChange}
+        />
+
+        <label htmlFor="science">Science</label>
+        <input
+          id="science"
+          type="checkbox"
+          name="science"
+          checked={interests.science}
+          onChange={handleCheckboxChange}
+        />
+
+        <button type="submit">Sign Up</button>
+      </form>
+
+      {submitted && <p>Thank you for signing up!</p>}
     </main>
   );
 }
